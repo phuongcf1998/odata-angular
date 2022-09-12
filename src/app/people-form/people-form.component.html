@@ -1,0 +1,242 @@
+<h1>People Form</h1>
+
+<form *ngIf="peopleForm" [formGroup]="peopleForm" (ngSubmit)="onSubmit()">
+  <p-button
+    type="submit"
+    [disabled]="!peopleForm.valid"
+    label="Submit"
+  ></p-button>
+  &nbsp;
+  <!-- <button
+    pButton
+    pRipple
+    type="button"
+    label="Cancel"
+    class="p-button-raised p-button-danger"
+  ></button> -->
+  <p-toast></p-toast>
+  <p-confirmPopup></p-confirmPopup>
+
+  <button
+    pButton
+    pRipple
+    type="button"
+    label=" Delete this people"
+    class="p-button-raised p-button-danger"
+    *ngIf="editMode"
+    (click)="onDeletePeople($event, people.UserName)"
+  ></button>
+  <br />
+  <br />
+
+  <div class="field">
+    <label for="firstname1">User name</label>
+    <input
+      id="firstname1"
+      type="text"
+      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+      [readonly]="editMode"
+      placeholder="User name"
+      formControlName="UserName"
+    />
+    <div
+      *ngIf="
+        peopleForm.get('UserName')?.invalid &&
+        (peopleForm.get('UserName')?.dirty ||
+          peopleForm.get('UserName')?.touched)
+      "
+    >
+      <span
+        class="error-text"
+        *ngIf="peopleForm.get('UserName')?.hasError('usernameAlreadyExists')"
+      >
+        Username already <strong>exists</strong>
+      </span>
+      <span
+        class="error-text"
+        *ngIf="peopleForm.get('UserName')?.hasError('required')"
+      >
+        User name not be blank
+      </span>
+    </div>
+  </div>
+  <div class="field">
+    <label for="firstname1">First Name</label>
+    <input
+      id="firstname1"
+      type="text"
+      placeholder="First name"
+      formControlName="FirstName"
+      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+    />
+    <div
+      *ngIf="
+        peopleForm.get('FirstName')?.invalid &&
+        (peopleForm.get('FirstName')?.dirty ||
+          peopleForm.get('FirstName')?.touched)
+      "
+    >
+      <span
+        class="error-text"
+        *ngIf="peopleForm.get('FirstName')?.hasError('required')"
+      >
+        First name not be blank
+      </span>
+    </div>
+  </div>
+  <div class="field">
+    <label for="lastname1">Last Name</label>
+    <input
+      id="lastname1"
+      type="text"
+      placeholder="Last name"
+      formControlName="LastName"
+      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+    />
+    <div
+      *ngIf="
+        peopleForm.get('LastName')?.invalid &&
+        (peopleForm.get('LastName')?.dirty ||
+          peopleForm.get('LastName')?.touched)
+      "
+    >
+      <span
+        class="error-text"
+        *ngIf="peopleForm.get('LastName')?.hasError('maxlength')"
+      >
+        Last Name must less than 26 character
+      </span>
+    </div>
+  </div>
+  <div class="field">
+    <label for="middlename1">Middle Name</label>
+    <input
+      type="text"
+      id="middlename1"
+      placeholder="Middle Name"
+      formControlName="MiddleName"
+      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+    />
+  </div>
+
+  <div class="field">
+    <label for="">Email</label>
+    <div formArrayName="Emails">
+      <div *ngFor="let email of emails.controls; let i = index">
+        <div>
+          <input
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary"
+            type="text"
+            placeholder="Email"
+            [formControlName]="i"
+          />
+          &nbsp;
+
+          <button
+            pButton
+            pRipple
+            (click)="removeEmail(i)"
+            type="button"
+            label="Remove"
+            class="p-button-raised p-button-danger"
+          ></button>
+        </div>
+        <span class="error-text" *ngIf="emails.controls[i].hasError('pattern')">
+          Email is not valid !!!
+        </span>
+        <br />
+      </div>
+    </div>
+    <span
+      class="error-text"
+      *ngIf="peopleForm.get('Emails')?.hasError('errorEmail')"
+    >
+      Email is duplicate !!!
+    </span>
+  </div>
+  <div class="form-group">
+    <div formArrayName="AddressInfo">
+      <div *ngFor="let address of addresses.controls; let i = index">
+        <div class="row">
+          <div class="col-lg-6">
+            <label for=""><h3>Address Info</h3></label>
+          </div>
+          <div class="col-lg-6">
+            <button
+              pButton
+              pRipple
+              (click)="removeAddress(i)"
+              type="button"
+              label="Remove"
+              class="p-button-raised p-button-danger"
+            ></button>
+          </div>
+        </div>
+        <div [formGroupName]="i">
+          <div class="field">
+            <label for="addressname1">Address name</label>
+            <input
+              id="addressname1"
+              type="text"
+              class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              formControlName="Address"
+              placeholder="Address name"
+            />
+          </div>
+          <div formGroupName="City">
+            <div class="field">
+              <label for="city1">City</label>
+              <input
+                id="city1"
+                type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                formControlName="Name"
+                placeholder="City"
+              />
+            </div>
+            <div class="field">
+              <label for="countryregion1">Country Region</label>
+              <input
+                id="countryregion1"
+                type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                formControlName="CountryRegion"
+                placeholder="Country Region"
+              />
+            </div>
+            <div class="field">
+              <label for="countryregion1">Region</label>
+              <input
+                id="region1"
+                type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                formControlName="Region"
+                placeholder="Region"
+              />
+            </div>
+          </div>
+        </div>
+        <br />
+      </div>
+    </div>
+  </div>
+  <br />
+  <button
+    (click)="addEmails()"
+    pButton
+    pRipple
+    type="button"
+    label="Add Email"
+    class="p-button-raised p-button-success"
+  ></button>
+  &nbsp;
+  <button
+    (click)="addAddress()"
+    pButton
+    pRipple
+    type="button"
+    label="Add Address"
+    class="p-button-raised p-button-primary"
+  ></button>
+  &nbsp;
+</form>

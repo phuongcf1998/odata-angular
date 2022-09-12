@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-lg-6">
+    <br />
+    <a
+      pButton
+      pRipple
+      type="button"
+      label="Add"
+      class="p-button-raised p-button-success"
+      routerLink="/new"
+    >
+    </a>
+    <ng-container *ngIf="listPeople">
+      <app-people-item [listPeople]="listPeople"></app-people-item>
+    </ng-container>
+  </div>
+  <div class="col-lg-6">
+    <br />
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<ul class="list-group mt-3" *ngIf="listPeople.length > 0">
+  <li class="list-group-item" *ngFor="let people of listPeople">
+    <a
+      class="route-wrap"
+      [routerLink]="['/edit', people.UserName]"
+      [routerLinkActive]="['active-link']"
+    >
+      <div class="item">
+        <h5>{{ people.UserName }}</h5>
+        <span class="">{{ people.FirstName }} - {{ people.LastName }}</span>
+      </div>
+      <img
+        src="https://via.placeholder.com/150"
+        class="img-responsivealt="
+        alt="Image"
+      />
+    </a>
+  </li>
+</ul>

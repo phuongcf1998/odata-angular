@@ -1,0 +1,16 @@
+.route-wrap {
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  text-decoration: none !important;
+  color: black !important;
+  padding: 10px 10px;
+
+  img {
+    width: 80px;
+  }
+  word-break: break-all;
+}
+.active-link {
+  background-color: #e9ecef;
+}
